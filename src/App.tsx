@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { JsonEditor } from './components/JsonEditor';
 import { JsonViewer } from './components/JsonViewer';
-import { Github, Play, AlertCircle, Trash2 } from 'lucide-react';
+import { Github, Play, AlertCircle, Trash2, Download } from 'lucide-react';
 
 function App() {
   const [jsonInput, setJsonInput] = useState<string>('');
@@ -52,6 +52,21 @@ function App() {
     setError(null);
   }
 
+  const handleDownload = () => {
+    if (!parsedJson) return;
+
+    const jsonString = JSON.stringify(parsedJson, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="app-container">
       <header className="header">
@@ -60,7 +75,7 @@ function App() {
         </h1>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <a
-            href="#" // Add GitHub repo link later
+            href="https://github.com/sai-teja-m/Json-Farm"
             target="_blank"
             rel="noopener noreferrer"
             className="icon-btn"
@@ -111,7 +126,14 @@ function App() {
           <div className="panel-header">
             <span>OUTPUT (Tree View)</span>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              {/* Copy button can be inside viewer or here */}
+              <button
+                className="icon-btn"
+                onClick={handleDownload}
+                disabled={!parsedJson}
+                title="Download JSON"
+              >
+                <Download size={16} />
+              </button>
             </div>
           </div>
           <div className="panel-body">

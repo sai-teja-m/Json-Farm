@@ -83,6 +83,7 @@ button {
   align-items: center;
   gap: 0.5rem;
   background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -92,6 +93,25 @@ button {
   display: flex;
   overflow: hidden;
   height: calc(100vh - 64px);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 64px);
+    overflow: visible;
+  }
+
+  .panel {
+    height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .panel:last-child {
+    border-bottom: none;
+  }
 }
 
 .panel {
